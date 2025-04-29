@@ -1,6 +1,6 @@
 FROM php:8.2-fpm
 
-# Install system dependencies
+# Install system dependencies & PHP extensions
 RUN apt-get update && apt-get install -y \
     libpng-dev libjpeg-dev libfreetype6-dev libonig-dev libxml2-dev \
     zip unzip curl git nginx supervisor \
@@ -21,10 +21,13 @@ RUN composer install --no-dev --optimize-autoloader && \
     cp .env.example .env && \
     php artisan key:generate
 
-# Copy nginx and supervisor config
+# Copy nginx and start script
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
+# Expose port 8080
 EXPOSE 8080
+
+# Run start script
 CMD ["/start.sh"]
