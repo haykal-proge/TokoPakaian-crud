@@ -22,6 +22,6 @@ RUN cp .env.example .env
 
 RUN php artisan key:generate
 
-EXPOSE 8000
+EXPOSE 8080
 
-CMD sleep 10 && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000
+CMD sleep 10 && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8080
