@@ -33,4 +33,4 @@ RUN php artisan key:generate
 EXPOSE ${PORT}
 
 # Run migrations and start Laravel on correct port
-CMD sleep 10 && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=${PORT}
+CMD sleep 10 && php artisan migrate --force && php artisan serve --host=0.0.0.0  --port=${PORT}
