@@ -31,3 +31,6 @@ EXPOSE 8080
 
 # Run start script
 CMD ["/start.sh"]
+
+RUN mkdir -p /run/php && chown -R www-data:www-data /run/php
+
