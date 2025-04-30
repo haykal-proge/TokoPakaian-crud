@@ -23,9 +23,6 @@ RUN mkdir -p storage bootstrap/cache && chmod -R 775 storage bootstrap/cache
 # Install Laravel dependencies
 RUN composer install --no-dev --optimize-autoloader --verbose
 
-# Generate application key
-RUN php artisan key:generate
-
 # Ensure .env exists
 COPY .env.example .env
 
