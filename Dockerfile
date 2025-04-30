@@ -16,8 +16,15 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy project files
 COPY . .
 
+RUN docker-php-ext-install pdo_mysql mbstring bcmath gd exif pcntl
+
+RUN mkdir -p storage bootstrap/cache && chmod -R 775 storage bootstrap/cache
+
 # Install Laravel dependencies
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --verbose
+
+# Generate application key
+RUN php artisan key:generate
 
 # Ensure .env exists
 COPY .env.example .env
@@ -40,7 +47,6 @@ RUN echo "display_errors = Off" > /usr/local/etc/php/conf.d/error-logging.ini \
     && echo "upload_max_filesize = 100M" > /usr/local/etc/php/conf.d/upload-limit.ini \
     && echo "post_max_size = 100M" >> /usr/local/etc/php/conf.d/upload-limit.ini
 
-    RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # Copy nginx and start script
 COPY nginx.conf /etc/nginx/nginx.conf
