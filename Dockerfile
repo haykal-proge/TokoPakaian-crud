@@ -26,11 +26,13 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
+# Set appropriate permissions
+RUN mkdir -p /run/php && \
+    chown -R www-data:www-data /var/www && \
+    chown -R www-data:www-data /run/php
+
 # Expose port 8080
 EXPOSE 8080
 
 # Run start script
 CMD ["/start.sh"]
-
-RUN mkdir -p /run/php && chown -R www-data:www-data /run/php
-
