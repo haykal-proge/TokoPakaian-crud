@@ -40,6 +40,8 @@ RUN echo "display_errors = Off" > /usr/local/etc/php/conf.d/error-logging.ini \
     && echo "upload_max_filesize = 100M" > /usr/local/etc/php/conf.d/upload-limit.ini \
     && echo "post_max_size = 100M" >> /usr/local/etc/php/conf.d/upload-limit.ini
 
+    RUN composer install --no-dev --optimize-autoloader --no-scripts
+
 # Copy nginx and start script
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY start.sh /start.sh
