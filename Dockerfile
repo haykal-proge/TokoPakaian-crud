@@ -1,4 +1,4 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.2-fpm
 
 # Install system dependencies & PHP extensions
 RUN apt-get update && apt-get install -y \
@@ -55,6 +55,3 @@ EXPOSE 8080
 
 # Run start script
 CMD ["/start.sh"]
-
-HEALTHCHECK --interval=30s --timeout=10s --retries=3 CMD curl --fail http://localhost:8080/health || exit 1
-
