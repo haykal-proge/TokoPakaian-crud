@@ -20,9 +20,6 @@ RUN docker-php-ext-install pdo_mysql mbstring bcmath gd exif pcntl
 
 RUN mkdir -p storage bootstrap/cache && chmod -R 775 storage bootstrap/cache
 
-# Install Laravel dependencies
-RUN composer install --no-dev --optimize-autoloader --verbose
-
 # Ensure .env exists
 COPY .env.example .env
 
