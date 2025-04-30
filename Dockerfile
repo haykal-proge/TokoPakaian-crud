@@ -16,42 +16,22 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy project files
 COPY . .
 
-RUN docker-php-ext-install pdo_mysql mbstring bcmath gd exif pcntl
-
-RUN mkdir -p storage bootstrap/cache && chmod -R 775 storage bootstrap/cache
+# Set permissions
+RUN chmod -R 775 storage bootstrap/cache
 
 # Install Laravel dependencies
-RUN composer install --no-dev --optimize-autoloader --verbose
+RUN composer install --no-dev --optimize-autoloader \
+    && cp .env.example .env \
+    && php artisan key:generate \
+    && php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
 
-# Ensure .env exists
-COPY .env.example .env
-
-# Set needed directories and permissions
-RUN mkdir -p /run/php \
-    && mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache \
-    && chown -R www-data:www-data /var/www \
-    && chown -R www-data:www-data /run/php \
-    && chmod -R 775 storage bootstrap/cache
-
-# Copy PHP-FPM configuration
-COPY www.conf /usr/local/etc/php-fpm.d/www.conf
-
-# Update PHP configuration
-RUN echo "display_errors = Off" > /usr/local/etc/php/conf.d/error-logging.ini \
-    && echo "log_errors = On" >> /usr/local/etc/php/conf.d/error-logging.ini \
-    && echo "error_log = /dev/stderr" >> /usr/local/etc/php/conf.d/error-logging.ini \
-    && echo "memory_limit = 256M" > /usr/local/etc/php/conf.d/memory-limit.ini \
-    && echo "upload_max_filesize = 100M" > /usr/local/etc/php/conf.d/upload-limit.ini \
-    && echo "post_max_size = 100M" >> /usr/local/etc/php/conf.d/upload-limit.ini
-
-
-# Copy nginx and start script
+# Copy nginx config and startup script
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-# Expose port 8080
 EXPOSE 8080
 
-# Run start script
 CMD ["/start.sh"]

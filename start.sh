@@ -1,14 +1,10 @@
 #!/bin/bash
 
-# Jalankan PHP-FPM di background
+# Start PHP-FPM in background
 php-fpm -D
 
-# Jalankan Laravel migration
-php artisan migrate --force
+# Migrate DB jika belum
+php artisan migrate --force || true
 
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-
-# Jalankan nginx di foreground
+# Jalankan nginx
 nginx -g "daemon off;"
