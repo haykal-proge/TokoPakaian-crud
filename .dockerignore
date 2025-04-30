@@ -1,10 +1,13 @@
 .git
 node_modules
 vendor
-storage/logs
-storage/framework
+storage
 .env
 *.log
-npm-debug.log
-.DS_Store
 *.sqlite
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.bak
+.DS_Store
