@@ -6,6 +6,8 @@ use App\Http\Controllers\Home;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KategoriController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +21,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/health', function () {
+    return response()->json(['status' => 'ok']);
+});
 
 // Route::get('/kategori', [KategoriController::class,'index']);
 

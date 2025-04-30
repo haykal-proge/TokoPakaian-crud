@@ -55,3 +55,5 @@ EXPOSE 8080
 
 # Run start script
 CMD ["/start.sh"]
+
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 CMD curl --fail http://localhost:8080/health || exit 1

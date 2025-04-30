@@ -1,5 +1,6 @@
 #!/bin/bash
-
-# Jalankan nginx
+# Start Nginx
 service nginx start
+
+# Start PHP-FPM
 php-fpm
