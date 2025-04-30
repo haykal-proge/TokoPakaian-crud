@@ -1,10 +1,10 @@
 {
     "build": {
       "builder": "nixpacks",
-      "buildCommand": "composer install --optimize-autoloader --no-dev && npm ci && npm run build"
+      "buildCommand": "composer install --optimize-autoloader --no-dev && php artisan optimize"
     },
     "deploy": {
-      "startCommand": "./start.sh",
+      "startCommand": "php artisan migrate --force && php -S 0.0.0.0:$PORT -t public/",
       "healthcheckPath": "/",
       "healthcheckTimeout": 60,
       "restartPolicyType": "ON_FAILURE",
